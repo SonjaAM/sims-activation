@@ -1,8 +1,10 @@
 
 //IMPORTING DATA from CSV
 
+//Test 
+console.log("test1");
 d3.csv("SIMS Activation Log.csv", function (error, rawData) {
-    
+    console.log("test2");
     // PRINT_FILTER FUNCTION ------------------------------------------------------------------------------------------------------------------
 
     function print_filter(filter) {
