@@ -1,10 +1,8 @@
 
 //IMPORTING DATA from CSV
 
-//Test 
-console.log("test1");
 d3.csv("SIMS Activation Log.csv", function (error, rawData) {
-    console.log("test2");
+
     // PRINT_FILTER FUNCTION ------------------------------------------------------------------------------------------------------------------
 
     function print_filter(filter) {
@@ -31,12 +29,10 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     //var jsonObject = JSON.stringify(rawData);
     var data = crossfilter(rawData);
     var countryDim = data.dimension(function (a) { return a.Code });
-    var countryGroup = countryDim.group().reduceSum(function (a) {
-        return a.Significance;
-    });
+    var countryGroup = countryDim.group().reduceCount();
 
     //print_filter("countryGroup");
-    var maxValue = 10;
+    var maxValue = 3;  /// To DO: NEED TO AUTOMATE THIS VALUE
     var minValue = 1;
     // create color palette function
     var paletteScale = d3.scale.linear()
@@ -55,7 +51,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
         try {
             var code = a[Object.keys(a)[0]];
             var val = a[Object.keys(a)[1]];
-            dataset[code] = { totalSignificance: val, fillColor: paletteScale(val) }
+            dataset[code] = { totalActivations: val, fillColor: paletteScale(val) }
         }
         catch (e) {
             console.log(e.message);
@@ -63,22 +59,25 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     });
     console.log(dataset);
 
-    var choropleth = new Datamap({
-        element: document.getElementById("map"),
-        projection: 'mercator',
-        fills: { defaultFill: '#d9d9d9' },
-        data: dataset
-        //,
-        //geographyConfig: {
-        //    highlightBorderColor: '#ffffff',
-        //    popupTemplate: function (geography, data) {
-        //        return '<div class="hoverinfo"><span style="font-weight: bold;">'
-        //            + geography.properties.name + '</span>, Total significance: ' + data.totalSignificance;
-        //    },
-        //    highlightBorderWidth: 3
-        //}
-    });
-    choropleth.legend();
-    console.log(choropleth);
+    try {
+        var choropleth = new Datamap({
+            element: document.getElementById("map"),
+            projection: 'mercator',
+            fills: { defaultFill: '#d9d9d9' },
+            data: dataset,
+            geographyConfig: {
+                highlightBorderColor: '#ffffff',
+                popupTemplate: function (geography, data) {
+                    return '<div class="hoverinfo"><span style="font-weight: bold;">'
+                        + geography.properties.name + '</span>, Number of Activations: ' + data.totalActivations;
+                },
+                highlightBorderWidth: 3
+            }
+        });
+        choropleth.legend();
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 
 }); //END of D3.csv import
