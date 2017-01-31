@@ -18,13 +18,16 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
   
     //cleaning data
 
+
     rawData.forEach(function (a) {
         a.Year = new Date(a.Year);
         a.Significance = +a["Significance (1-5; 5 as most significant activations)"];
         delete a["Significance (1-5; 5 as most significant activations)"];
-        a["Start Date"] = new Date(a["Start Date"]);
-        a["End Date"] = new Date(a["End Date"]);
+        //a["Start Date"] = new Date(a["Start Date"]);
+        //a["End Date"] = new Date(a["End Date"]);
     });
+
+    console.log("rawData = ", rawData);
     
     //var jsonObject = JSON.stringify(rawData);
     var data = crossfilter(rawData);
@@ -34,18 +37,18 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     //print_filter("countryGroup");
     var maxValue = 3;  /// To DO: NEED TO AUTOMATE THIS VALUE
     var minValue = 1;
+
     // create color palette function
     var paletteScale = d3.scale.linear()
             .domain([minValue, maxValue])
             .range(["#ff4d4d", "#000000"]); // blue color
-    console.log(paletteScale(10));
-    console.log(countryDim.bottom(1)[0].value);
+
     var dataset = {};
     // Datamaps expect data in format:
     // { "USA": { "fillColor": "#42a844", numberOfWhatever: 75},
     //   "FRA": { "fillColor": "#8dc386", numberOfWhatever: 43 } }
 
-    console.log(countryGroup.all());
+    console.log("countryGroup.all() = ", countryGroup.all());
 
     countryGroup.all().forEach(function (a) {
         try {
@@ -57,8 +60,8 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
             console.log(e.message);
         }
     });
-    console.log(dataset);
 
+    //----------------- Start drawing map
     try {
         var choropleth = new Datamap({
             element: document.getElementById("map"),
@@ -77,7 +80,33 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
         choropleth.legend();
     }
     catch (e) {
-        console.log(e.message);
+        console.log("error Map: ", e.message);
     }
+
+    //-------------------------------------- Table -------------------------------
+
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+
+    try {
+        var dataTable = dc.dataTable("#table")
+        .width(900)
+        .height(400)
+        .dimension(countryDim)
+        .showGroups(false)
+        .group(function (a) {
+            return a;
+        })
+        .columns([{ label: 'Year', format: function (a) { return a["Year"].getFullYear(); } },
+            "Code", "Country", "Support", "Significance", "Response","Start Date", "End Date"
+            //{ label: 'Start Date', format: function (a) { return monthNames[a["Start Date"].getMonth()] + " " + a["Start Date"].getFullYear(); } },
+            //{ label: 'Start Date', format: function (a) { return monthNames[a["End Date"].getMonth()] + " " + a["End Date"].getFullYear(); } }
+        ])
+        .sortBy(function (a) { return a["Year"] })
+        .order(d3.descending);
+    } catch (e) { console.log("error dataTable:", e.message) }
+
+    dc.renderAll();
 
 }); //END of D3.csv import
