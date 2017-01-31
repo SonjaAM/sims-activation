@@ -1,21 +1,15 @@
+body{
+    font-family: 'Oxygen', sans-serif;
+}
+
 p{
     align-content:center;
     text-align:center;
     padding:20px;
 }
 
-div#map svg g.axis text{
-    font-size: 0.9em;
-    font-family: Verdana;
-}
-
-div#linechart svg text{
-    font-size: 0.9em;
-    font-family: Verdana;
-}
-
 h1 {
-    font-family:  Verdana;
+    font-family: 'Oxygen', sans-serif;
     font-size: 1.5em;
     text-align: center;
 }
@@ -26,19 +20,6 @@ h1 {
     overflow:hidden; 
 }
 
-.no-stroke {
-    stroke:none;
-}
-
-.dc-chart g.activations path {
-    stroke: #fff !important;
-}
-
-.reset-map :active{
-    outline:none;
-    color:black;
-}
-
-.dc-table-head, .dc-table-label {
-    text-align:center;
+#table{
+    font-family: 'Lato', sans-serif;
 }
