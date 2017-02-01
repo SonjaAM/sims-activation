@@ -27,8 +27,9 @@
                     </button>
                 </div>
                 <div id="map">
-                    <p>
-                        <button id="reset-map" class="btn btn-info btn-md reset" style="display: none;">Reset map filters</button>
+                    <p id="reset-line">
+                        <button class="btn btn-md" style="visibility:hidden;">Error</button>
+                        <button id="reset-map" class="btn btn-danger btn-md reset" style="display: none;">Reset map and table filters</button>
                         <span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
                     </p>
                 </div>
@@ -38,6 +39,7 @@
 
     <div class="container">
         <div class="row">
+            <p><strong>Raw Data</strong></p>
             <div class="col-sm-10 col-sm-offset-1">
                 <div id="table" class="table table-hover"></div>
             </div>
@@ -45,7 +47,6 @@
     </div>
 
     <!--Javascript files-->
-    <script type="text/javascript" src="libraries/bootstrap.min.js"></script>
     <script type="text/javascript" src="libraries/d3.js"></script>
     <script type="text/javascript" src="libraries/crossfilter.js"></script>
     <script type="text/javascript" src="libraries/dc.js"></script>
