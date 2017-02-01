@@ -21,14 +21,32 @@ h1 {
     overflow:hidden; 
     padding-bottom:30px;
 }
+#reset-line{
+    padding-top:0;
+    text-align:left;
+}
 
 #table{
     font-family: 'Lato', sans-serif;
     display:block;
+    max-height:30em;
+  overflow:auto;
+    padding-bottom:1em;
+    border: 1px solid #ddd;
 }
 
 div[class~="col-"]{
     max-width:1700px;
+}
+
+.table tbody tr{
+        width:100%;
+}
+
+.table tbody tr td{
+    height:100%;
+    vertical-align:middle;
+    height:4em;
 }
 
 #loading-button{

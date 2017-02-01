@@ -14,7 +14,8 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     var data = crossfilter(rawData);
     var countryDim = data.dimension(function (a) { return a.Country});
     var countryGroup = countryDim.group().reduceCount();
-
+    console.log(countryGroup.all());
+    console.log("dom")
     var maxValue = countryGroup.top(1)[0].value + 1;
     var minValue = 1;
 
@@ -25,6 +26,8 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
             .range(["#ff4d4d", "#000000"]); // blue colour
 
     //-------------------------------------- Map -------------------------------
+
+
 
     d3.json("world-map.json", function (error2, mapData) {
         
@@ -39,6 +42,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
                 .projection(projection)
                 .group(countryGroup)
                 .colors(paletteScale)
+                .transitionDelay([1500])
                 .colorCalculator(function (a) { return a ? worldMap.colors()(a) : "#d9d9d9" })
                 .overlayGeoJson(mapData.features, "state", function (a) { return a.properties.NAME; });
         } catch (e) { console.log("Error creating the map: ", e.message); }
@@ -58,12 +62,14 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
         .height(400)
         .dimension(countryDim)
         .showGroups(false)
+        .size(100) //change me if there are more than 100 lines in the table!!
         .group(function (a) {
             return a;
         })
         .columns(["Year", "Response", "Country", "Support", "Start Date", "End Date", "Significance"])
         .sortBy(function (a) { return [a["Year"],a["Response"]].join() })
-        .order(d3.descending);
+        .order(d3.descending)
+        .transitionDelay([1000]);
     } catch (e) { console.log("Error creating the table: ", e.message) }
 
     dc.renderAll();
