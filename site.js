@@ -19,7 +19,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     //cleaning data
 
     rawData.forEach(function (a) {
-        a.Year = new Date(a.Year);
+        a.Year = +a.Year;
         a.Significance = +a["Significance (1-5; 5 as most significant activations)"];
         delete a["Significance (1-5; 5 as most significant activations)"];
     });
@@ -57,7 +57,6 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
         //clearing filters
         var resetButton = document.getElementById("reset-map");
         resetButton.onclick = function () { worldMap.filterAll(); dc.redrawAll(); };
-        console.log(resetButton);
     });
     //-------------------------------------- Table -------------------------------
 
@@ -74,13 +73,12 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
         .group(function (a) {
             return a;
         })
-        .columns([{ label: 'Year', format: function (a) { return a["Year"].getFullYear(); } },
-            "Code", "Country", "Support", "Significance", "Response", "Start Date", "End Date"
-        ])
-        .sortBy(function (a) { return a["Year"] })
+        .columns(["Year", "Response", "Country", "Support", "Start Date", "End Date", "Significance"])
+        .sortBy(function (a) { return [a["Year"],a["Response"]].join() })
         .order(d3.descending);
     } catch (e) { console.log("error dataTable:", e.message) }
 
     dc.renderAll();
+    console.log("year= ", typeof "Year");
    
 }); //END of D3.csv import
