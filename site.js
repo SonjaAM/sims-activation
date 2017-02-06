@@ -26,7 +26,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
 
     //-------------------------------------- Map -------------------------------
 
-
+    var width = document.getElementById('map').offsetWidth;
 
     d3.json("world-map.json", function (error2, mapData) {
         
@@ -35,7 +35,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
 
         try{
             var worldMap = dc.geoChoroplethChart("#map")
-                .width(1100)
+                .width(width)
                 .height(500)
                 .dimension(countryDim)
                 .projection(projection)
