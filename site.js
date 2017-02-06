@@ -14,8 +14,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     var data = crossfilter(rawData);
     var countryDim = data.dimension(function (a) { return a.Country});
     var countryGroup = countryDim.group().reduceCount();
-    console.log(countryGroup.all());
-    console.log("dom")
+
     var maxValue = countryGroup.top(1)[0].value + 1;
     var minValue = 1;
 
@@ -90,3 +89,4 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     }
    
 }); //END of D3.csv import
+console.log(error);

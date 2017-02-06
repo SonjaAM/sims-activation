@@ -1,9 +1,9 @@
 body{
-    font-family: 'Oxygen', sans-serif;
     width:100%;
 }
 
 p{
+    font-family: 'Oxygen', sans-serif;
     align-content:center;
     text-align:center;
     padding:10px;
@@ -30,22 +30,13 @@ h1 {
     font-family: 'Lato', sans-serif;
     display:block;
     max-height:30em;
-  overflow:auto;
+    overflow:auto;
     padding-bottom:1em;
-    border: 1px solid #ddd;
-}
-
-div[class~="col-"]{
-    max-width:1700px;
-}
-
-.table tbody tr{
-        width:100%;
+    border-top: 1px solid #ddd;
 }
 
 .table tbody tr td{
     height:100%;
-    vertical-align:middle;
     height:4em;
 }
 
@@ -57,8 +48,3 @@ div[class~="col-"]{
     padding:20px;
     position: absolute;
 }
-
-/*.fa-spinner::before {
-    font-family: FontAwesome;
-    content: "\f110";
-}*/
