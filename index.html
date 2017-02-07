@@ -1,7 +1,8 @@
 ﻿
 <!--Notes: things to change before migrating to main site:
     Relative links: csv file in site.js, stylesheet llinks
-    Activation Log links
+    Activation Log link
+    links to googlefonts
 
     -->
 <!DOCTYPE html>
@@ -16,7 +17,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Oxygen">
-
 </head>
 
 <!--BEGIN BODY-->
@@ -28,16 +28,12 @@
         &nbsp; Back to <a href="https://zibethin.github.io/">zibethin.github.io</a>.
         &nbsp; View code on <a href="https://github.com/Zibethin">Github</a>.
     </p>
+
     <div class="container">
-        <div class="row .hidden-xs">
-            <div class="col-sm-10 col-sm-offset-1 .hidden-xs">
-                <div id="loading-button">
-                    <button class="btn btn-danger btn-md">
-                        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>&nbsp; Loading Map
-                    </button>
-                </div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 hide-overflow hidden-xs">
                 <div id="map">
-                    <p id="reset-line">
+                    <p id="reset-line" class="col-sm-12">
                         <button class="btn btn-md" style="visibility:hidden;">Error</button>
                         <button id="reset-map" class="btn btn-danger btn-md reset" style="display: none;">Reset map and table filters</button>
                         <span class="reset" style="display: none;"> | Current filter: <span class="filter"></span></span>
@@ -47,21 +43,28 @@
         </div>
     </div>
 
+    <!--Table------------>
+        
     <div class="container">
         <div class="row">
-            <p><strong>Raw Data</strong></p>
+            <div class="col-sm-10 visible-xs">
+                <p>SIMS has participated in various activations around the world since 2011. An interactive map of all activations is available when viewing the website on a larger screen.</p>
+                <p>In the meantime you can download a table for all activations below.</p>
+            </div>
+            <p><strong>Summary of Activations</strong></p>
             <p>
                 <button id="download-data" class="btn btn-danger btn-md btn-dark">
                     <i class="fa fa-download" aria-hidden="true"></i>&nbsp; Download csv
                 </button>
             </p>
-            <div class="col-sm-10 col-sm-offset-1">
+            <div class="col-sm-10 col-sm-offset-1 hidden-xs">
                 <div id="table" class="table table-hover"></div>
             </div>
         </div>
     </div>
 
     <!--Javascript files-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
     <script type="text/javascript" src="libraries/d3.js"></script>
     <script type="text/javascript" src="libraries/crossfilter.js"></script>
     <script type="text/javascript" src="libraries/dc.js"></script>
