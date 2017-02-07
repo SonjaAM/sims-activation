@@ -25,18 +25,19 @@ d3.csv(csvLocation, function (error, rawData) {
             .domain([minValue, maxValue])
             .range(["#ff4d4d", "#000000"]); // blue colour
 
-    //-------------------------------------- Map -------------------------------
+    var width = document.getElementById("table").offsetWidth;
 
-    var width = document.getElementById('map').offsetWidth;
+    //-------------------------------------- Map -------------------------------
 
     d3.json("world-map.json", function (error2, mapData) {
 
         var centre = d3.geo.centroid(mapData);
-        var projection = d3.geo.mercator().center(centre).scale(150).translate([500, 200]);
+        var projection = d3.geo.mercator().center(centre).scale(160).translate([500, 200]);
 
         try {
+
             var worldMap = dc.geoChoroplethChart("#map")
-                .width(width)
+                .width(900)
                 .height(500)
                 .dimension(countryDim)
                 .projection(projection)
@@ -51,10 +52,12 @@ d3.csv(csvLocation, function (error, rawData) {
         //clearing filters
 
         var resetButton = document.getElementById("reset-map");
-        resetButton.onclick = function () { worldMap.filterAll(); dc.redrawAll(); };
-    });
+        resetButton.onclick = function redraw() { worldMap.filterAll(); dc.redrawAll(); };
 
-    //-------------------------------------- Table -------------------------------
+    }); // end of d3.json import
+    
+
+    //-------------------------------------- Table -----------------------------------------------------------
 
     try {
         var dataTable = dc.dataTable("#table")
@@ -83,17 +86,17 @@ d3.csv(csvLocation, function (error, rawData) {
         } else if (state == 'complete') {
             setTimeout(function () {
                 document.getElementById('interactive');
-                document.getElementById('loading-button').style.display = "none";
+                document.getElementById('loading').style.display = "none";
                 document.getElementById('map').style.visibility = "visible";
             }, 1000);
         }
-    }
+    };
 
     //--------------------------------- download dialog box ----------------------
 
     function readTextFile(file) {
         var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", file, false);
+        rawFile.open("GET", file, true); //true = asynchronous request
         var allText = "";
         rawFile.onreadystatechange = function () {
             if (rawFile.readyState === 4) {
@@ -103,12 +106,10 @@ d3.csv(csvLocation, function (error, rawData) {
             }
         }
         rawFile.send(null);
-        return allText || "";
+        return allText || "Error loading csv, please contact the website administrator";
     }
 
     var test = readTextFile(csvLocation);
-    console.log("test", test);
-    console.log(typeof test);
     var downloadButton = document.getElementById("download-data");
     downloadButton.onclick = function () {
         var blob = new Blob([test], { type: "text/plain;charset=utf-8" });
