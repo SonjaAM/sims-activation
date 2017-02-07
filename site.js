@@ -1,7 +1,8 @@
 
 //IMPORTING DATA from CSV
+var csvLocation = "SIMS Activation Log.csv";
 
-d3.csv("SIMS Activation Log.csv", function (error, rawData) {
+d3.csv(csvLocation, function (error, rawData) {
 
     // cleaning data
 
@@ -12,7 +13,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     });
 
     var data = crossfilter(rawData);
-    var countryDim = data.dimension(function (a) { return a.Country});
+    var countryDim = data.dimension(function (a) { return a.Country });
     var countryGroup = countryDim.group().reduceCount();
 
     var maxValue = countryGroup.top(1)[0].value + 1;
@@ -29,11 +30,11 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
     var width = document.getElementById('map').offsetWidth;
 
     d3.json("world-map.json", function (error2, mapData) {
-        
-        var centre = d3.geo.centroid(mapData);
-        var projection = d3.geo.mercator().center(centre).scale(150).translate([500,200]);
 
-        try{
+        var centre = d3.geo.centroid(mapData);
+        var projection = d3.geo.mercator().center(centre).scale(150).translate([500, 200]);
+
+        try {
             var worldMap = dc.geoChoroplethChart("#map")
                 .width(width)
                 .height(500)
@@ -66,7 +67,7 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
             return a;
         })
         .columns(["Year", "Response", "Country", "Support", "Start Date", "End Date", "Significance"])
-        .sortBy(function (a) { return [a["Year"],a["Response"]].join() })
+        .sortBy(function (a) { return [a["Year"], a["Response"]].join(); })
         .order(d3.descending)
         .transitionDelay([1000]);
     } catch (e) { console.log("Error creating the table: ", e.message) }
@@ -87,6 +88,32 @@ d3.csv("SIMS Activation Log.csv", function (error, rawData) {
             }, 1000);
         }
     }
-   
+
+    //--------------------------------- download dialog box ----------------------
+
+    function readTextFile(file) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        var allText = "";
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState === 4) {
+                if (rawFile.status === 200 || rawFile.status == 0) {
+                    allText = rawFile.responseText;
+                }
+            }
+        }
+        rawFile.send(null);
+        return allText || "";
+    }
+
+    var test = readTextFile(csvLocation);
+    console.log("test", test);
+    console.log(typeof test);
+    var downloadButton = document.getElementById("download-data");
+    downloadButton.onclick = function () {
+        var blob = new Blob([test], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "SIMS_activation_log.csv");
+    };
+
+
 }); //END of D3.csv import
-console.log(error);

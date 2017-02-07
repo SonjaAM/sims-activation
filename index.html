@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+<!--Notes: things to change before migrating to main site:
+    Relative links: csv file in site.js, stylesheet llinks
+    Activation Log links
+
+    -->
+<!DOCTYPE html>
 <html lang="EN">
 <head>
     <meta charset="utf-8">
@@ -45,9 +51,9 @@
         <div class="row">
             <p><strong>Raw Data</strong></p>
             <p>
-                <a class="btn btn-danger btn-md btn-dark" href="https://raw.githubusercontent.com/Zibethin/sims-activation/master/SIMS%20Activation%20Log.csv">
+                <button id="download-data" class="btn btn-danger btn-md btn-dark">
                     <i class="fa fa-download" aria-hidden="true"></i>&nbsp; Download csv
-                </a>
+                </button>
             </p>
             <div class="col-sm-10 col-sm-offset-1">
                 <div id="table" class="table table-hover"></div>
@@ -59,6 +65,7 @@
     <script type="text/javascript" src="libraries/d3.js"></script>
     <script type="text/javascript" src="libraries/crossfilter.js"></script>
     <script type="text/javascript" src="libraries/dc.js"></script>
+    <script type="text/javascript" src="libraries/fileSaver.js"></script>
     <script type="text/javascript" src="site.js"></script>
 </body>
 
