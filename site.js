@@ -110,7 +110,7 @@ d3.csv(csvLocation, function (error, rawData) {
         return allText || "Error loading csv, please contact the website administrator";
     }
 
-    var file = readTextFile("SIMS Activation Log.csv");
+    var file = readTextFile(csvLocation);
     var downloadButton = document.getElementById("download-data");
    
     downloadButton.onclick = function () {
