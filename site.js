@@ -7,8 +7,11 @@ var rawData; // a global
 function init() {
     Tabletop.init({
         key: googleUrl,
-        callback: function (mydata, tabletop) {
-            rawData = mydata;
+        callback: function (data, tabletop) {
+            console.log("test=", data);
+            rawData = data;
+
+            //d3.csv(csvLocation, function (error, rawData) {
 
             // cleaning data
 
@@ -73,7 +76,7 @@ function init() {
                 .group(function (a) {
                     return a;
                 })
-                .columns(["Year", "Response", "Country", "Support", "Start Date", "End Date"])
+                .columns(["Year", "Response", "Country", "Support", "Start Date", "End Date", "Significance"])
                 .sortBy(function (a) { return [a["Year"], a["Response"]].join(); })
                 .order(d3.descending)
                 .transitionDelay([1000]);
@@ -89,10 +92,8 @@ function init() {
                     document.getElementById('map').style.visibility = "hidden";
                 } else if (state == 'complete') {
                     setTimeout(function () {
-                        //document.getElementById('interactive');
-                        //document.getElementById('loading').style.display = "none";
                         document.getElementById('map').style.visibility = "visible";
-                    }, 1000);
+                    }, 10);
                 }
             };
 
